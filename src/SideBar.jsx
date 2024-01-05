@@ -1,6 +1,9 @@
 import React from 'react'
 
-function SideBar() {
+function SideBar({page,setPage}) {
+ const handilPage=(newPage)=>{
+    setPage(newPage)
+ }
     return (
         <aside>
             <div>
@@ -8,13 +11,13 @@ function SideBar() {
                     {/* <input type="text" placeholder="Search" /> */}
                     <h1 className='ToDOLogo'>ToDo</h1>
                     <br />
-                    <button className="active" id="sidebar-btn">
-                        Home
+                    <button className={page=="All" ? "active" : ""}  onClick={()=>handilPage("All")} id="sidebar-btn">
+                        All
                     </button>
-                    <button id="sidebar-btn">
+                    <button className={page=="Completed" ? "active" : ""} id="sidebar-btn" onClick={()=>handilPage("Completed")}>
                         Completed
                     </button>
-                    <button id="sidebar-btn">Pending</button>
+                    <button className={page=="Pending" ? "active" : ""} onClick={()=>handilPage("Pending")} id="sidebar-btn">Pending</button>
                 </div>
 
             </div>

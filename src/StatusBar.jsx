@@ -1,18 +1,20 @@
 import React from 'react'
 
-function StatusBar() {
+function StatusBar({completed,Pending}) {
     return (
         <div className="ideas">
             <div className="idea">
                 <h1>
                     Completed Tasks
-                    <br /><span className='taskCount'>0</span>
+                    <br /><span className='taskCount'>{completed}</span>
                 </h1>
             </div>
             <div className="idea">
                 {/* <p>sd</p> */}
-                <h1>Pending</h1>
-                <p>sd</p>
+                <h1>Pending Tasks
+                <br /><span className='taskCount'>{Pending}</span>
+                </h1>
+                
             </div>
         </div>
     )

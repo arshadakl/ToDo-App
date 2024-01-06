@@ -17,8 +17,9 @@ function SideBar({page,setPage}) {
                     <button className={page=="Completed" ? "active" : ""} id="sidebar-btn" onClick={()=>handilPage("Completed")}>
                         Completed
                     </button>
-                    <button className={page=="Pending" ? "active" : ""} onClick={()=>handilPage("Pending")} id="sidebar-btn">Pending</button>
+                    <button className={page=="" ? "active" : ""} onClick={()=>handilPage("Pending")} id="sidebar-btn">Pending</button>
                 </div>
+                
 
             </div>
         </aside>

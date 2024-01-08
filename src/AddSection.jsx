@@ -3,10 +3,11 @@
 import React, { useState } from 'react';
 import EditForm from './editForm';
 
-function AddSection({Todos,setTodos}) {
+function AddSection({ Todos, setTodos }) {
     // const [Todos, setTodos] = useState([]);
     const [input, setInput] = useState('');
-
+    const [deleteStatus, setDeleteStatus] = useState(false)
+    const [deleteID, setDeleteID] = useState(null)
     const submitHandler = (e) => {
         e.preventDefault()
         setTodos([...Todos, { id: Date.now(), text: input, status: false, isEdit: false }]);
@@ -25,9 +26,22 @@ function AddSection({Todos,setTodos}) {
     };
 
     const deleteItem = (id) => {
-        const updatedList = Todos.filter((item) => item.id !== id);
-        setTodos(updatedList);
+        setDeleteStatus(true)
+        setDeleteID(id)
     };
+
+    const confirmDelete = () => {
+        setDeleteStatus(false)
+
+        const updatedList = Todos.filter((item) => item.id !== deleteID);
+        setTodos(updatedList);
+        setDeleteID(null)
+    }
+
+    const cancelDelete = () => {
+        setDeleteStatus(false)
+        setDeleteID(null)
+    }
 
     const editHandler = (item) => {
         setTodos((prevTodos) =>
@@ -44,7 +58,7 @@ function AddSection({Todos,setTodos}) {
         setTodos((prevTodos) =>
             prevTodos.map((list) => {
                 if (list.id === id) {
-                    return { ...list, text: newText, isEdit: false };
+                    return { ...list, text: newText, isEdit: false, };
                 }
                 return list;
             })
@@ -54,12 +68,23 @@ function AddSection({Todos,setTodos}) {
     return (
         <section className="updates">
             <h1>All Task</h1>
+            {deleteStatus ? <div className="addSection deleteSection" >
+                <div id="checklist" className='checklist'>
+                    <label className='listItem'>Are You Sure to Delete</label>
+                    <div className='confirmBTN'>
+                    <p onClick={()=>confirmDelete()}>Yes</p>
+                    <p onClick={()=>cancelDelete()}>No</p>
+                    </div>
+
+                </div>
+            </div> : null}
             <form className="addSection" onSubmit={submitHandler}>
                 <input value={input} onChange={(e) => setInput(e.target.value)}
                     placeholder="Add new Task..." className="addInput" type="text"
                 />
                 <button type='submit' className="fa-solid fa-plus"></button>
             </form>
+            
             {Todos.map((item) =>
                 item.isEdit ? (
                     <EditForm key={item.id} id={item.id} text={item.text} onSave={saveHandler} />

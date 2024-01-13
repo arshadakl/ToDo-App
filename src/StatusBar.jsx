@@ -2,7 +2,10 @@ import React from 'react'
 
 function StatusBar({completed,Pending}) {
     return (
+        <>
+        <h1>Status</h1>
         <div className="ideas">
+            
             <div className="idea">
                 <h1>
                     Completed Tasks
@@ -17,6 +20,7 @@ function StatusBar({completed,Pending}) {
                 
             </div>
         </div>
+        </>
     )
 }
 

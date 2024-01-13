@@ -1,18 +1,29 @@
 // AddSection.js
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import EditForm from './editForm';
 
 function AddSection({ Todos, setTodos }) {
     // const [Todos, setTodos] = useState([]);
+
     const [input, setInput] = useState('');
     const [deleteStatus, setDeleteStatus] = useState(false)
     const [deleteID, setDeleteID] = useState(null)
+    const inputRef = useRef(null);
+
     const submitHandler = (e) => {
         e.preventDefault()
-        setTodos([...Todos, { id: Date.now(), text: input, status: false, isEdit: false }]);
+        const temp = input.replace(/\s/g,"")
+        if(temp.length>0){
+            setTodos([...Todos, { id: Date.now(), text: input, status: false, isEdit: false }]);
+        }
         setInput('');
+
     };
+
+    useEffect(() => {
+        inputRef.current.focus();
+    }, [])
 
     const checkHandler = (e, item) => {
         setTodos((prevTodos) =>
@@ -72,19 +83,19 @@ function AddSection({ Todos, setTodos }) {
                 <div id="checklist" className='checklist'>
                     <label className='listItem'>Are You Sure to Delete</label>
                     <div className='confirmBTN'>
-                    <p onClick={()=>confirmDelete()}>Yes</p>
-                    <p onClick={()=>cancelDelete()}>No</p>
+                        <p onClick={() => confirmDelete()}>Yes</p>
+                        <p onClick={() => cancelDelete()}>No</p>
                     </div>
 
                 </div>
             </div> : null}
             <form className="addSection" onSubmit={submitHandler}>
-                <input value={input} onChange={(e) => setInput(e.target.value)}
+                <input ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)}
                     placeholder="Add new Task..." className="addInput" type="text"
                 />
                 <button type='submit' className="fa-solid fa-plus"></button>
             </form>
-            
+
             {Todos.map((item) =>
                 item.isEdit ? (
                     <EditForm key={item.id} id={item.id} text={item.text} onSave={saveHandler} />

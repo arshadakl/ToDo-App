@@ -6,7 +6,9 @@ import FilterTask from './FilterTask'
 
 
 function Tab() {
-    const [Todos, setTodos] = useState(JSON.parse(localStorage.getItem("TodoItems")));
+    // const [Todos, setTodos] = useState(JSON.parse(localStorage.getItem("TodoItems")));
+    const [Todos, setTodos] = useState(JSON.parse(localStorage.getItem("TodoItems")) || []);
+
     const [page,setPage] = useState("All")
     const completed = Todos.filter(item=>item.status)
     const Pending = Todos.filter(item=>!item.status)
